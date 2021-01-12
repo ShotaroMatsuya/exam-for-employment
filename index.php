@@ -1,14 +1,22 @@
 <?php
 require_once("includes/header.php");
 require_once("includes/classes/Sanitizer.php");
+require_once("includes/classes/Constants.php");
+require_once("includes/classes/Insert.php");
+
+$insert = new Insert($con);
 
 if (isset($_POST['submitButton'])) {
     $name = Sanitizer::sanitizeString($_POST["name"]);
     $age = Sanitizer::sanitizeString($_POST["age"]);
     $sex = Sanitizer::sanitizeString($_POST["sex"]);
-    $property = $_POST['property'];
-    // $property = Sanitizer::sanitizeString($_POST["property"]);
+    $property = Sanitizer::sanitizeArray($_POST['property']);
     $comment = Sanitizer::sanitizeString($_POST["comment"]);
+    $success = $insert->validateAll($name, $age, $sex, $property, $comment);
+
+    if ($success) {
+        header("Location: thanks.php");
+    }
 }
 
 function checkInputValue($input)
@@ -20,12 +28,12 @@ function checkInputValue($input)
     }
 }
 echo "<pre>";
-var_dump(checkInputValue("comment"));
+var_dump($property);
 echo "</pre>";
-function checkProperty($array, $property)
+function checkProperty($array, $prop)
 {
     foreach ($array as $el) {
-        if ($el !== $property) {
+        if ($el !== $prop) {
             continue;
         } else {
             return true;
@@ -44,7 +52,10 @@ function checkProperty($array, $property)
     <div class="card-body">
         <form method="POST">
             <div class="form-group">
-                <label for="name">氏名</label>
+                <div class="d-flex justify-content-between">
+                    <label for="name">氏名</label>
+                    <?php echo $insert->getError(Constants::$nameChars); ?>
+                </div>
                 <input class="form-control form-control-lg <?php if (checkInputValue("name")) {
                                                                 echo '';
                                                             } else {
@@ -52,11 +63,15 @@ function checkProperty($array, $property)
                                                             } ?>" id="name" type="text" name="name" placeholder="氏名" value="<?php if (checkInputValue("name")) {
                                                                                                                                 echo $name;
                                                                                                                             } ?>">
-                <small class="invalid-feedback">氏名が未入力です</small>
             </div>
 
             <div class="form-group">
-                <label for="age">年齢</label>
+                <div class="d-flex justify-content-between">
+                    <label for="age">年齢</label>
+                    <?php echo $insert->getError(Constants::$ageInt); ?>
+
+                </div>
+
                 <select class="form-control form-control-lg <?php if (checkInputValue("age")) {
                                                                 echo '';
                                                             } else {
@@ -80,11 +95,13 @@ function checkProperty($array, $property)
                                             echo 'selected';
                                         }  ?>>60歳以上</option>
                 </select>
-                <small class="invalid-feedback">年齢が未入力です</small>
-
             </div>
             <div class="form-group">
-                <label for="sex">性別</label>
+                <div class="d-flex justify-content-between">
+                    <label for="sex">性別</label>
+                    <?php echo $insert->getError(Constants::$sexInt); ?>
+                </div>
+
                 <div class="form-check my-2">
 
                     <input type="radio" class="form-check-input" name="sex" id="male" value="0" <?php if ($sex === '0') {
@@ -98,47 +115,48 @@ function checkProperty($array, $property)
                                                                                                     } ?>>
                     <label for="female" class="form-check-label h5">女性</label>
                 </div>
-                <?php if (!checkInputValue("sex")) {
-                    echo '<small class="text-danger">性別が未入力です</small>';
-                } ?>
 
             </div>
             <div class="form-group">
-                <label for="property">希望物件</label>
+                <div class="d-flex justify-content-between">
+                    <label for="property">希望物件</label>
+                    <?php echo $insert->getError(Constants::$propInt); ?>
+                </div>
                 <div class="form-inline">
                     <div class="form-check mr-3">
-                        <input class="form-check-input" type="checkbox" name="property[]" id="property1" value="0" <?php if (checkProperty($property, '0')) {
+                        <input class="form-check-input" type="checkbox" name="property[]" id="property1" value="1" <?php if (checkProperty($property, '1')) {
                                                                                                                         echo 'checked';
                                                                                                                     } ?>>
 
                         <label class="form-check-label h5" for="property1">新築一戸建て</label>
                     </div>
                     <div class="form-check mr-3">
-                        <input class="form-check-input" type="checkbox" name="property[]" id="property2" value="1" <?php if (checkProperty($property, '1')) {
+                        <input class="form-check-input" type="checkbox" name="property[]" id="property2" value="2" <?php if (checkProperty($property, '2')) {
                                                                                                                         echo 'checked';
                                                                                                                     } ?>>
                         <label class="form-check-label h5" for="property2">中古一戸建て</label>
                     </div>
                     <div class="form-check mr-3">
-                        <input class="form-check-input" type="checkbox" name="property[]" id="property3" value="2" <?php if (checkProperty($property, '2')) {
+                        <input class="form-check-input" type="checkbox" name="property[]" id="property3" value="3" <?php if (checkProperty($property, '3')) {
                                                                                                                         echo 'checked';
                                                                                                                     } ?>>
                         <label class="form-check-label h5" for="property3">マンション</label>
                     </div>
                     <div class="form-check mr-3">
-                        <input class="form-check-input" type="checkbox" name="property[]" id="property4" value="3" <?php if (checkProperty($property, '3')) {
+                        <input class="form-check-input" type="checkbox" name="property[]" id="property4" value="4" <?php if (checkProperty($property, '4')) {
                                                                                                                         echo 'checked';
                                                                                                                     } ?>>
                         <label class="form-check-label h5" for="property4">土地</label>
                     </div>
 
                 </div>
-                <?php if (!checkInputValue("property")) {
-                    echo '<small class="text-danger">希望物件が未入力です</small>';
-                } ?>
+
             </div>
             <div class="form-group">
-                <label for="comment">その他ご要望</label>
+                <div class="d-flex justify-content-between">
+                    <label for="comment">その他ご要望</label>
+                    <?php echo $insert->getError(Constants::$commentChars) ?>
+                </div>
                 <textarea class="form-control <?php if (checkInputValue("comment") && $comment !== '') {
                                                     echo '';
                                                 } else {
@@ -146,7 +164,6 @@ function checkProperty($array, $property)
                                                 } ?>" name="comment" id="comment" cols="30" rows="10"><?php if (checkInputValue("comment")) {
                                                                                                             echo $comment;
                                                                                                         } ?></textarea>
-                <small class="invalid-feedback">その他ご要望が未入力です</small>
             </div>
 
             <button class="btn btn-primary btn-lg m-2" name="submitButton" type="submit">送信</button>
