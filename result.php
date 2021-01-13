@@ -36,28 +36,51 @@ if (isset($_GET["page"])) {
                         </tr>
                     </thead>
                     <?php
-                    $pageSize = 6;
                     $resultsProvider = new ResultsProvider($con);
+                    $pageSize = 1;
+                    $numResults = $resultsProvider->getNumResults();
                     echo $resultsProvider->getResultsHtml($page, $pageSize);
+
                     ?>
                 </table>
                 <!-- PAGINATION -->
                 <nav class="ml-4">
                     <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a href="#" class="page-link">Previous</a>
+                        <?php
+                        $pageToShow = 5;
+                        $numPages = ceil($numResults / $pageSize);
+                        $pagesLeft = min($pageToShow, $numPages);
+
+                        $currentPage = $page - floor($pageToShow / 2);
+                        if ($currentPage < 1) {
+                            $currentPage = 1;
+                        }
+                        if ($currentPage + $pagesLeft > $numPages + 1) {
+                            $currentPage = $numPages + 1 - $pagesLeft;
+                        }
+
+
+                        ?>
+                        <li class="page-item <?php if ($page == 1) {
+                                                    echo 'disabled';
+                                                }  ?>">
+                            <a href="result.php?page=<?php echo $page - 1 ?>" class="page-link">Previous</a>
                         </li>
-                        <li class="page-item active">
-                            <a href="#" class="page-link">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">Next</a>
+                        <?php
+                        while ($pagesLeft != 0 && $currentPage <= $numPages) {
+                            if ($currentPage == $page) {
+                                echo "<li class='page-item active'><a href='result.php?page=$currentPage' class='page-link'>$currentPage</a></li>";
+                            } else {
+                                echo "<li class='page-item'><a href='result.php?page=$currentPage' class='page-link'>$currentPage</a></li>";
+                            }
+                            $pagesLeft--;
+                            $currentPage++;
+                        }
+                        ?>
+                        <li class="page-item <?php if ($page == $numPages) {
+                                                    echo 'disabled';
+                                                }  ?>">
+                            <a href="result.php?page=<?php echo $page + 1 ?>" class="page-link">Next</a>
                         </li>
                     </ul>
                 </nav>

@@ -1,8 +1,5 @@
 <?php
 require_once('includes/config.php');
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -20,13 +17,15 @@ require_once('includes/config.php');
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+    <nav class="navbar navbar-dark bg-dark py-3">
         <div class="container">
-            <a href="index.php" class="navbar-brand">Top</a>
+            <a href="index.php" class="navbar-brand">
+                <i class="fas fa-user-edit"></i>TOP
+            </a>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="/Exam/result.php" class="nav-link">
-                        <i class="fas fa-user"></i> Results
+                    <a href="result.php" class="nav-link">
+                        <i class="fas fa-cog"></i> Results
                     </a>
                 </li>
             </ul>

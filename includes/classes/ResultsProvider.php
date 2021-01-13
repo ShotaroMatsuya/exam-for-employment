@@ -6,7 +6,7 @@ class ResultsProvider
     {
         $this->con = $con;
     }
-    public function getNubResults()
+    public function getNumResults()
     {
         $query = $this->con->prepare("SELECT COUNT(*) as total FROM results");
         $query->execute();

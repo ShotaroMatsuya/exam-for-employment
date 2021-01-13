@@ -173,7 +173,7 @@ function checkProperty($array, $prop)
                 </div>
 
                 <button class="btn btn-primary btn-lg m-2" name="submitButton" type="submit">送信</button>
-                <a href="/Exam" class="btn btn-lg btn-danger m-2">キャンセル</a>
+                <a href="" class="btn btn-lg btn-danger m-2">キャンセル</a>
 
             </form>
         </div>
