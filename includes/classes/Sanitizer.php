@@ -11,6 +11,8 @@ class Sanitizer
     {
         $inputText = strip_tags($inputText);
         $inputText = trim($inputText);
+        //全角スペース除去
+        $inputText = preg_replace('/\A[\x00\s]++|[\x00\s]++\z/u', '', $inputText);
         return $inputText;
     }
     public static function sanitizeArray($array)

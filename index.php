@@ -67,7 +67,7 @@ function checkProperty($array, $prop)
                 <input type="hidden" name="token" value="<?php echo $_SESSION["token"]; ?>">
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
-                        <label for="name">氏名</label>
+                        <label for="name">氏名を教えて下さい</label>
                         <?php echo $insert->getError(Constants::$nameChars); ?>
                     </div>
                     <input class="form-control form-control-lg <?php if (checkInputValue("name") && $name !== "") {
@@ -81,7 +81,7 @@ function checkProperty($array, $prop)
 
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
-                        <label for="age">年齢</label>
+                        <label for="age">年齢を教えて下さい</label>
                         <?php echo $insert->getError(Constants::$ageInt); ?>
 
                     </div>
@@ -112,7 +112,7 @@ function checkProperty($array, $prop)
                 </div>
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
-                        <label for="sex">性別</label>
+                        <label for="sex">性別を教えて下さい</label>
                         <?php echo $insert->getError(Constants::$sexInt); ?>
                     </div>
 
@@ -133,7 +133,7 @@ function checkProperty($array, $prop)
                 </div>
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
-                        <label for="property">希望物件</label>
+                        <label for="property">希望物件種別を教えて下さい</label>
                         <?php echo $insert->getError(Constants::$propInt); ?>
                     </div>
                     <div class="form-inline">
@@ -168,7 +168,7 @@ function checkProperty($array, $prop)
                 </div>
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
-                        <label for="comment">その他ご要望</label>
+                        <label for="comment">その他ご要望をご入力ください</label>
                         <?php echo $insert->getError(Constants::$commentChars) ?>
                     </div>
                     <textarea class="form-control <?php if (!$insert->getError(Constants::$commentChars)) {
