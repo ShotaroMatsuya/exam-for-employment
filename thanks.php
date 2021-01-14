@@ -25,7 +25,7 @@ if (!$_SESSION["isAnswered"]) {
                 </div>
                 <div class="card-body text-center">
                     <p class="text-center lead my-5">アンケートの回答を受け付けました。</p>
-                    <a href="/Exam" class="btn btn-lg btn-success m-2 w-50">Topに戻る</a>
+                    <a href="/" class="btn btn-lg btn-success m-2 w-50">Topに戻る</a>
                 </div>
             </div>
         </div>
