@@ -1,5 +1,6 @@
 <?php
 require_once('includes/config.php');
+require_once('includes/classes/DetailProvider.php');
 ?>
 
 <!DOCTYPE html>
@@ -16,19 +17,21 @@ require_once('includes/config.php');
     <script src="https://kit.fontawesome.com/2a7706ff80.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <nav class="navbar navbar-dark bg-dark py-3">
-        <div class="container">
-            <a href="index.php" class="navbar-brand">
-                <i class="fas fa-user-edit"></i>TOP
-            </a>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="result.php" class="nav-link">
-                        <i class="fas fa-cog"></i> Results
-                    </a>
-                </li>
-            </ul>
+<body class="py-5">
+    <div class="fixed-top">
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container">
+                <a href="index.php" class="navbar-brand">
+                    <i class="fas fa-user-edit"></i>TOP
+                </a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="result.php" class="nav-link">
+                            <i class="fas fa-cog"></i> Results
+                        </a>
+                    </li>
+                </ul>
 
-        </div>
-    </nav>
+            </div>
+        </nav>
+    </div>

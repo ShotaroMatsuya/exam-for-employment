@@ -7,6 +7,12 @@ class Sanitizer
         $inputText = str_replace(" ", "", $inputText);
         return $inputText;
     }
+    public static function sanitizeTextArea($inputText)
+    {
+        $inputText = strip_tags($inputText);
+        $inputText = trim($inputText);
+        return $inputText;
+    }
     public static function sanitizeArray($array)
     {
         $newArray = array();

@@ -37,7 +37,7 @@ if (isset($_GET["page"])) {
                     </thead>
                     <?php
                     $resultsProvider = new ResultsProvider($con);
-                    $pageSize = 1;
+                    $pageSize = 5;
                     $numResults = $resultsProvider->getNumResults();
                     echo $resultsProvider->getResultsHtml($page, $pageSize);
 

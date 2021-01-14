@@ -31,7 +31,6 @@ class Insert
         $query->bindValue(":sex", $sex, PDO::PARAM_INT);
         $query->bindValue(":property", $property);
         $query->bindValue(":comment", $comment);
-
         return $query->execute();
     }
     private function validateName($name)

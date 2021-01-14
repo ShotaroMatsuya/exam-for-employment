@@ -31,7 +31,7 @@ class ResultsProvider
             $datePosted = $date->format('Y年n月j日');
 
             $resultsHtml .= "<tr><td>$id</td>
-                            <td>$name</td>
+                            <td><a href='details.php?id=$id' class='lead'>$name</a></td>
                             <td>($datePosted)</td>
                             <td><a href='details.php?id=$id' class='btn btn-secondary'><i class='fas fa-angle-double-right'></i> Details</a></td></tr>";
         }

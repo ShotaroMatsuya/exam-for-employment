@@ -5,13 +5,15 @@ require_once("includes/classes/Constants.php");
 require_once("includes/classes/Insert.php");
 
 $insert = new Insert($con);
-
-if (isset($_POST['submitButton'])) {
+if (!isset($_SESSION["token"])) {
+    $_SESSION["token"] = bin2hex(openssl_random_pseudo_bytes(16));
+}
+if (isset($_POST['submitButton']) && $_SESSION["token"] === $_POST["token"]) {
     $name = Sanitizer::sanitizeString($_POST["name"]);
     $age = Sanitizer::sanitizeString($_POST["age"]);
     $sex = Sanitizer::sanitizeString($_POST["sex"]);
     $property = Sanitizer::sanitizeArray($_POST['property']);
-    $comment = Sanitizer::sanitizeString($_POST["comment"]);
+    $comment = Sanitizer::sanitizeTextArea($_POST["comment"]);
     $success = $insert->validateAll($name, $age, $sex, $property, $comment);
 
     if ($success) {
@@ -19,7 +21,9 @@ if (isset($_POST['submitButton'])) {
         header("Location: thanks.php");
     }
 }
-
+if (isset($_SESSION["token"]) && isset($_POST["token"]) && $_SESSION["token"] !== $_POST["token"]) {
+    header("Location: 500.php");
+}
 function checkInputValue($input)
 {
     if (isset($_POST[$input]) && $_POST[$input] !== "" || !isset($_POST['submitButton'])) {
@@ -40,6 +44,9 @@ function checkProperty($array, $prop)
     }
 }
 
+
+
+
 ?>
 <header id="main-header" class="py-2 bg-primary text-white">
     <div class="container">
@@ -57,12 +64,13 @@ function checkProperty($array, $prop)
         </div>
         <div class="card-body">
             <form method="POST">
+                <input type="hidden" name="token" value="<?php echo $_SESSION["token"]; ?>">
                 <div class="form-group">
                     <div class="d-flex justify-content-between">
                         <label for="name">氏名</label>
                         <?php echo $insert->getError(Constants::$nameChars); ?>
                     </div>
-                    <input class="form-control form-control-lg <?php if (checkInputValue("name")) {
+                    <input class="form-control form-control-lg <?php if (checkInputValue("name") && $name !== "") {
                                                                     echo '';
                                                                 } else {
                                                                     echo 'is-invalid';
@@ -163,7 +171,7 @@ function checkProperty($array, $prop)
                         <label for="comment">その他ご要望</label>
                         <?php echo $insert->getError(Constants::$commentChars) ?>
                     </div>
-                    <textarea class="form-control <?php if (checkInputValue("comment") && $comment !== '') {
+                    <textarea class="form-control <?php if (!$insert->getError(Constants::$commentChars)) {
                                                         echo '';
                                                     } else {
                                                         echo 'is-invalid';

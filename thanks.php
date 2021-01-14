@@ -1,9 +1,10 @@
 <?php
 require_once("includes/header.php");
 
-// if (!isset($_SESSION["isAnswered"])) {
-//     header("Location: index.php");
-// }
+if (!$_SESSION["isAnswered"]) {
+    header("Location: index.php");
+}
+
 
 ?>
 <header id="main-header" class="py-2 bg-success text-white">
